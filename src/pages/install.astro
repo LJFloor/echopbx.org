@@ -1,0 +1,62 @@
+---
+import Base from "../layouts/Base.astro";
+import CodeBlock from "../components/CodeBlock.astro";
+---
+
+<Base title="Install" description="Install EchoPBX with Docker in a few minutes.">
+  <section class="border-b border-slate-200 bg-slate-50">
+    <div class="wrap py-12">
+      <p class="eyebrow">Guide</p>
+      <h1 class="mt-2 text-4xl font-extrabold tracking-tight text-slate-900">Install EchoPBX</h1>
+      <p class="mt-3 max-w-2xl text-lg text-slate-600">
+        EchoPBX runs as a single Docker container. This takes a few minutes on any Linux server.
+      </p>
+    </div>
+  </section>
+
+  <article class="wrap prose-page max-w-3xl pb-20 text-slate-700">
+    <div class="mt-8 rounded-md border border-amber-300 bg-amber-50 px-4 py-3 text-sm text-amber-900">
+      EchoPBX is currently in beta. If you run into trouble, please
+      <a href="https://github.com/LJFloor/EchoPBX/issues">open an issue</a>. No question is too small.
+    </div>
+
+    <h2>Requirements</h2>
+    <p>
+      A Linux machine with Docker. Asterisk does not run on Windows, but you can use
+      <a href="https://www.docker.com/products/docker-desktop/">Docker Desktop</a> to run the container there.
+    </p>
+
+    <h2>1. Install Docker</h2>
+    <p>On Ubuntu-based distributions:</p>
+    <CodeBlock code="sudo apt install docker.io" />
+
+    <h2>2. Run the container</h2>
+    <CodeBlock code="sudo docker run -t --network=host -v /opt/echopbx:/data ghcr.io/ljfloor/echopbx:main" />
+    <p>
+      All data is stored in <code>/opt/echopbx</code> on the host. The container uses host networking,
+      which exposes SIP on port 5060 and the web interface on port 8740. Publishing those ports in bridge
+      mode caused connection and one-way audio problems with some phones, so host networking is the
+      recommended setup for now.
+    </p>
+
+    <h2>3. Open the web interface</h2>
+    <p>
+      Browse to <code>http://&lt;server-ip&gt;:8740</code>. The setup wizard asks you to accept the license
+      and create an admin account. After that you can add extensions, trunks and queues.
+    </p>
+
+    <h2>Connect a phone</h2>
+    <p>
+      Any SIP client or IP phone works. For a softphone on your computer,
+      <a href="https://www.microsip.org">MicroSIP</a> is easy to set up. The extension page in EchoPBX
+      shows the settings to enter, and the phone appears as connected once it registers.
+    </p>
+
+    <h2>Build from source</h2>
+    <CodeBlock code="docker build -t echopbx ." />
+    <p>
+      To develop without Docker, see the
+      <a href="https://github.com/LJFloor/EchoPBX#developing-locally">instructions in the README</a>.
+    </p>
+  </article>
+</Base>

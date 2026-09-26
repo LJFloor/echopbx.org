@@ -1,0 +1,36 @@
+---
+interface Props {
+  code: string;
+  label?: string;
+}
+
+const { code, label = "Terminal" } = Astro.props;
+---
+
+<div class="code-block min-w-0 max-w-full overflow-hidden rounded-md border border-slate-800 bg-slate-900 text-slate-100">
+  <div class="flex items-center justify-between border-b border-slate-800 px-4 py-2">
+    <span class="text-xs font-medium text-slate-400">{label}</span>
+    <button
+      type="button"
+      class="copy rounded px-2 py-1 text-xs font-semibold text-slate-300 hover:bg-slate-800 hover:text-white"
+      data-code={code}
+    >
+      Copy
+    </button>
+  </div>
+  <pre class="overflow-x-auto px-4 py-4 font-mono text-[0.8125rem] leading-relaxed"><code><span class="select-none text-slate-500">$ </span>{code}</code></pre>
+</div>
+
+<script>
+  document.querySelectorAll<HTMLButtonElement>(".code-block .copy").forEach((btn) => {
+    btn.addEventListener("click", async () => {
+      try {
+        await navigator.clipboard.writeText(btn.dataset.code ?? "");
+        btn.textContent = "Copied";
+      } catch {
+        btn.textContent = "Failed";
+      }
+      setTimeout(() => (btn.textContent = "Copy"), 1500);
+    });
+  });
+</script>

@@ -1,0 +1,185 @@
+---
+import { Icon } from "astro-icon/components";
+import Base from "../layouts/Base.astro";
+import CodeBlock from "../components/CodeBlock.astro";
+
+const runCmd = "sudo docker run -t --network=host -v /opt/echopbx:/data ghcr.io/ljfloor/echopbx:main";
+
+const features = [
+  {
+    icon: "mdi:phone-classic",
+    title: "Extensions",
+    text: "Create an extension and connect a softphone like MicroSIP or Zoiper, or a physical IP phone. Connected devices show up right away.",
+  },
+  {
+    icon: "mdi:server-network",
+    title: "Trunks",
+    text: "Connect to your SIP provider with a host, username and password. Decide per trunk what happens when a call comes in.",
+  },
+  {
+    icon: "mdi:account-group",
+    title: "Queues",
+    text: "Ring all, round robin, fewest calls or random. Set timeouts, wrap-up time, an announcement and your own music on hold.",
+  },
+  {
+    icon: "mdi:sitemap-outline",
+    title: "Call flows",
+    text: "Play messages, offer a phone menu and transfer callers to a queue. Build the flow visually and test it with a test call.",
+  },
+  {
+    icon: "mdi:view-dashboard-outline",
+    title: "Dashboard",
+    text: "See ongoing calls live, along with active extensions, active trunks and system uptime.",
+  },
+  {
+    icon: "mdi:docker",
+    title: "One container",
+    text: "Asterisk and the web interface ship together in a single Docker image. All data lives in one volume.",
+  },
+];
+---
+
+<Base>
+  <!-- Hero -->
+  <section class="border-b border-slate-200">
+    <div class="wrap grid items-center gap-10 py-14 lg:grid-cols-[minmax(0,1.1fr)_minmax(0,1fr)] lg:gap-16 lg:py-20">
+      <div>
+        <span class="inline-flex items-center gap-1.5 rounded-full border border-amber-300 bg-amber-50 px-2.5 py-0.5 text-xs font-semibold text-amber-800">
+          Beta
+        </span>
+        <h1 class="mt-4 text-4xl font-extrabold leading-[1.1] tracking-tight text-slate-900 sm:text-5xl">
+          A PBX that is simple to set up.
+        </h1>
+        <p class="mt-5 max-w-xl text-lg leading-relaxed text-slate-600">
+          EchoPBX is for people who want to host their own phone system without the hassle that usually
+          comes with it. Manage extensions, trunks and queues from a clean web interface, with
+          <a href="https://www.asterisk.org/" class="font-medium text-slate-900 underline underline-offset-2">Asterisk</a>
+          doing the work underneath.
+        </p>
+        <div class="mt-8 flex flex-wrap gap-3">
+          <a href="/install" class="btn btn-primary">
+            Install EchoPBX
+            <Icon name="mdi:arrow-right" class="size-4" />
+          </a>
+          <a href="https://github.com/LJFloor/EchoPBX" class="btn btn-secondary">
+            <Icon name="mdi:github" class="size-5" />
+            View on GitHub
+          </a>
+        </div>
+      </div>
+
+      <div class="min-w-0 rounded-lg border border-slate-200 bg-slate-50 p-5 sm:p-6">
+        <p class="text-sm font-semibold text-slate-900">Run it with Docker</p>
+        <div class="mt-3">
+          <CodeBlock code={runCmd} />
+        </div>
+        <p class="mt-4 text-sm leading-relaxed text-slate-600">
+          Then open <code class="rounded bg-white px-1.5 py-0.5 font-mono text-[0.8125rem] text-slate-900 ring-1 ring-slate-200">http://&lt;server-ip&gt;:8740</code>
+          and the setup wizard walks you through creating an admin account.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Features -->
+  <section id="features" class="scroll-mt-20 py-16 lg:py-20">
+    <div class="wrap">
+      <p class="eyebrow">Features</p>
+      <h2 class="mt-2 max-w-2xl text-3xl font-bold tracking-tight text-slate-900">
+        Everything a small phone system needs
+      </h2>
+      <div class="mt-10 grid gap-px overflow-hidden rounded-lg border border-slate-200 bg-slate-200 sm:grid-cols-2 lg:grid-cols-3">
+        {features.map((f) => (
+          <div class="bg-white p-6">
+            <div class="flex size-10 items-center justify-center rounded-md bg-brand-light text-brand-dark">
+              <Icon name={f.icon} class="size-5" />
+            </div>
+            <h3 class="mt-4 font-semibold text-slate-900">{f.title}</h3>
+            <p class="mt-1.5 text-[0.9375rem] leading-relaxed text-slate-600">{f.text}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Philosophy -->
+  <section class="border-y border-slate-200 bg-slate-50 py-16 lg:py-20">
+    <div class="wrap grid gap-10 lg:grid-cols-2 lg:gap-16">
+      <div>
+        <p class="eyebrow">Why EchoPBX</p>
+        <h2 class="mt-2 text-3xl font-bold tracking-tight text-slate-900">
+          Not a config file with a web page on top
+        </h2>
+      </div>
+      <div class="space-y-4 text-[1.0625rem] leading-relaxed text-slate-700">
+        <p>
+          A typical Asterisk frontend turns every key in the config file into a textbox or checkbox.
+          EchoPBX takes a different approach and abstracts away much of Asterisk's complexity, so you
+          only deal with the things that matter: who can call, how calls come in and where they go.
+        </p>
+        <p>
+          That is not for everyone. If you want full control over every Asterisk setting,
+          <a href="https://www.freepbx.org/" class="font-medium text-brand-dark underline underline-offset-2">FreePBX</a>
+          is a great alternative.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Steps -->
+  <section class="py-16 lg:py-20">
+    <div class="wrap">
+      <p class="eyebrow">Get started</p>
+      <h2 class="mt-2 text-3xl font-bold tracking-tight text-slate-900">Up and running in three steps</h2>
+      <ol class="mt-10 grid gap-6 lg:grid-cols-3">
+        <li class="rounded-lg border border-slate-200 p-6">
+          <span class="flex size-8 items-center justify-center rounded-full bg-slate-900 text-sm font-bold text-white">1</span>
+          <h3 class="mt-4 font-semibold text-slate-900">Install Docker</h3>
+          <p class="mt-1.5 text-[0.9375rem] leading-relaxed text-slate-600">
+            On Ubuntu-based systems: <code class="font-mono text-sm text-slate-900">sudo apt install docker.io</code>
+          </p>
+        </li>
+        <li class="rounded-lg border border-slate-200 p-6">
+          <span class="flex size-8 items-center justify-center rounded-full bg-slate-900 text-sm font-bold text-white">2</span>
+          <h3 class="mt-4 font-semibold text-slate-900">Start the container</h3>
+          <p class="mt-1.5 text-[0.9375rem] leading-relaxed text-slate-600">
+            One <code class="font-mono text-sm text-slate-900">docker run</code> command. Your data is stored in
+            <code class="font-mono text-sm text-slate-900">/opt/echopbx</code>.
+          </p>
+        </li>
+        <li class="rounded-lg border border-slate-200 p-6">
+          <span class="flex size-8 items-center justify-center rounded-full bg-slate-900 text-sm font-bold text-white">3</span>
+          <h3 class="mt-4 font-semibold text-slate-900">Open the web interface</h3>
+          <p class="mt-1.5 text-[0.9375rem] leading-relaxed text-slate-600">
+            Go to port 8740 on your server, create an admin account and add your first extension.
+          </p>
+        </li>
+      </ol>
+      <a href="/install" class="mt-8 inline-flex items-center gap-1.5 font-semibold text-brand-dark hover:underline">
+        Read the full install guide
+        <Icon name="mdi:arrow-right" class="size-4" />
+      </a>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="bg-slate-900">
+    <div class="wrap flex flex-col items-start justify-between gap-6 py-12 md:flex-row md:items-center">
+      <div>
+        <h2 class="text-2xl font-bold tracking-tight text-white">Free and open source</h2>
+        <p class="mt-2 text-slate-300">
+          EchoPBX is licensed under the GPL v2. Questions, bug reports and pull requests are welcome.
+        </p>
+      </div>
+      <div class="flex flex-wrap gap-3">
+        <a href="https://github.com/LJFloor/EchoPBX" class="btn bg-white text-slate-900 hover:bg-slate-200">
+          <Icon name="mdi:github" class="size-5" />
+          Star on GitHub
+        </a>
+        <a href="https://github.com/LJFloor/EchoPBX/issues" class="btn border border-slate-600 text-white hover:border-white">
+          Open an issue
+        </a>
+      </div>
+    </div>
+  </section>
+</Base>

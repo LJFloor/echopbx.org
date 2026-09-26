@@ -1,0 +1,58 @@
+---
+import { Icon } from "astro-icon/components";
+import Base from "../layouts/Base.astro";
+
+const faqs = [
+  {
+    q: "Can I install EchoPBX on Windows?",
+    a: `EchoPBX uses Asterisk under the hood, and Asterisk does not support Windows, so you cannot install it on Windows directly. You can install <a href="https://www.docker.com/products/docker-desktop/">Docker Desktop</a> on Windows and run EchoPBX as a container there.`,
+  },
+  {
+    q: "Which protocols are supported?",
+    a: `Only SIP. It is by far the most used VoIP protocol, and supporting just SIP keeps things simple. If you need other protocols such as IAX2, <a href="https://www.freepbx.org/">FreePBX</a> is very feature rich.`,
+  },
+  {
+    q: "Why does the container use host networking?",
+    a: `When SIP (5060) and the web interface (8740) were published in bridge mode, some phones had trouble connecting to Asterisk, and when they did connect there was no audio. <code>--network=host</code> works reliably. Bridge mode support is still being looked into.`,
+  },
+  {
+    q: "Is this just another frontend for Asterisk?",
+    a: `No. A typical frontend maps every key in the config file to a textbox or checkbox. EchoPBX abstracts away many of Asterisk's complexities instead. That might not be for everyone, and if you prefer the traditional approach, FreePBX is a great alternative.`,
+  },
+  {
+    q: "Is EchoPBX free?",
+    a: `Yes. EchoPBX is open source and licensed under the GNU GPL v2. The source is on <a href="https://github.com/LJFloor/EchoPBX">GitHub</a>.`,
+  },
+  {
+    q: "Which phone should I use?",
+    a: `Any SIP softphone or IP phone. For testing on a computer, <a href="https://www.microsip.org">MicroSIP</a> is easy to set up.`,
+  },
+];
+---
+
+<Base title="FAQ" description="Frequently asked questions about EchoPBX.">
+  <section class="border-b border-slate-200 bg-slate-50">
+    <div class="wrap py-12">
+      <p class="eyebrow">Help</p>
+      <h1 class="mt-2 text-4xl font-extrabold tracking-tight text-slate-900">Frequently asked questions</h1>
+    </div>
+  </section>
+
+  <div class="wrap max-w-3xl py-10 pb-20">
+    <div class="divide-y divide-slate-200 rounded-lg border border-slate-200">
+      {faqs.map((f) => (
+        <details class="group prose-page">
+          <summary class="flex cursor-pointer list-none items-center justify-between gap-4 px-5 py-4 font-semibold text-slate-900 hover:bg-slate-50 [&::-webkit-details-marker]:hidden">
+            {f.q}
+            <Icon name="mdi:chevron-down" class="size-5 shrink-0 text-slate-400 transition-transform group-open:rotate-180" />
+          </summary>
+          <p class="!mt-0 px-5 pb-5 text-slate-700" set:html={f.a} />
+        </details>
+      ))}
+    </div>
+    <p class="mt-8 text-slate-600">
+      Question not answered here?
+      <a href="https://github.com/LJFloor/EchoPBX/issues" class="font-semibold text-brand-dark underline underline-offset-2">Open an issue on GitHub</a>.
+    </p>
+  </div>
+</Base>
