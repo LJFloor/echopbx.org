@@ -31,7 +31,11 @@ import CodeBlock from "../components/CodeBlock.astro";
     <CodeBlock code="sudo apt install docker.io" />
 
     <h2>2. Run the container</h2>
-    <CodeBlock code="sudo docker run -t --network=host -v /opt/echopbx:/data ghcr.io/ljfloor/echopbx:main" />
+    <CodeBlock code="sudo docker run -d --name echopbx --restart unless-stopped --network=host -v /opt/echopbx:/data ghcr.io/ljfloor/echopbx:main" />
+    <p>
+      The container runs in the background and starts again after a reboot. To see its logs, run
+      <code>sudo docker logs -f echopbx</code>.
+    </p>
     <p>
       All data is stored in <code>/opt/echopbx</code> on the host. The container uses host networking,
       which exposes SIP on port 5060 and the web interface on port 8740. Publishing those ports in bridge
@@ -51,6 +55,18 @@ import CodeBlock from "../components/CodeBlock.astro";
       <a href="https://www.microsip.org">MicroSIP</a> is easy to set up. The extension page in EchoPBX
       shows the settings to enter, and the phone appears as connected once it registers.
     </p>
+
+    <h2>Updating</h2>
+    <p>
+      Pull the new image, remove the old container and start it again. Your data in <code>/opt/echopbx</code> is kept.
+    </p>
+    <CodeBlock
+      code={[
+        "sudo docker pull ghcr.io/ljfloor/echopbx:main",
+        "sudo docker rm -f echopbx",
+        "sudo docker run -d --name echopbx --restart unless-stopped --network=host -v /opt/echopbx:/data ghcr.io/ljfloor/echopbx:main",
+      ].join("\n")}
+    />
 
     <h2>Build from source</h2>
     <CodeBlock code="docker build -t echopbx ." />

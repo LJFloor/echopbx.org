@@ -3,7 +3,7 @@ import { Icon } from "astro-icon/components";
 import Base from "../layouts/Base.astro";
 import CodeBlock from "../components/CodeBlock.astro";
 
-const runCmd = "sudo docker run -t --network=host -v /opt/echopbx:/data ghcr.io/ljfloor/echopbx:main";
+const runCmd = "sudo docker run -d --name echopbx --restart unless-stopped --network=host -v /opt/echopbx:/data ghcr.io/ljfloor/echopbx:main";
 
 const features = [
   {
